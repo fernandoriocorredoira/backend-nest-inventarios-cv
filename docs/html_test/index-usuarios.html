@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Usuarios - NestJS</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+.loading {
+    opacity: .5;
+    pointer-events: none;
+}
+</style>
+
+</head>
+<body class="bg-slate-100">
+
+<!-- LOGIN -->
+<section
+    id="loginSection"
+    class="min-h-screen flex items-center justify-center px-4">
+
+    <div class="bg-white shadow-xl rounded-xl p-8 w-full max-w-md">
+
+        <h1 class="text-3xl font-bold text-center mb-6">
+            Login
+        </h1>
+
+        <div class="space-y-4">
+
+            <input
+                id="loginEmail"
+                type="email"
+                placeholder="Correo electrónico"
+                class="w-full border rounded-lg p-3">
+
+            <input
+                id="loginPassword"
+                type="password"
+                placeholder="Contraseña"
+                class="w-full border rounded-lg p-3">
+
+            <button
+                onclick="login()"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg">
+
+                Iniciar Sesión
+            </button>
+
+        </div>
+
+        <p id="loginError"
+           class="text-red-600 mt-4 text-center hidden">
+        </p>
+
+    </div>
+</section>
+
+<!-- DASHBOARD -->
+<section
+    id="dashboard"
+    class="hidden min-h-screen">
+
+    <!-- HEADER -->
+    <header class="bg-slate-900 text-white shadow">
+
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+            <h2 class="text-2xl font-bold">
+                Administración de Usuarios
+            </h2>
+
+            <button
+                onclick="logout()"
+                class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg">
+
+                Logout
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- CONTENT -->
+    <div class="max-w-7xl mx-auto p-6">
+
+        <div class="grid lg:grid-cols-3 gap-6">
+
+            <!-- FORM -->
+            <div class="bg-white rounded-xl shadow p-6">
+
+                <h3 id="formTitle"
+                    class="text-xl font-bold mb-4">
+                    Crear Usuario
+                </h3>
+
+                <input type="hidden" id="userId">
+
+                <div class="space-y-3">
+
+                    <input
+                        id="userName"
+                        type="text"
+                        placeholder="Nombre"
+                        class="w-full border rounded-lg p-3">
+
+                    <input
+                        id="userEmail"
+                        type="email"
+                        placeholder="Email"
+                        class="w-full border rounded-lg p-3">
+
+                    <input
+                        id="userPassword"
+                        type="password"
+                        placeholder="Contraseña"
+                        class="w-full border rounded-lg p-3">
+
+                    <button
+                        id="saveBtn"
+                        onclick="saveUser()"
+                        class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg">
+
+                        Guardar Usuario
+                    </button>
+
+                    <button
+                        onclick="resetForm()"
+                        class="w-full bg-gray-300 hover:bg-gray-400 py-3 rounded-lg">
+
+                        Limpiar
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- USERS TABLE -->
+            <div class="lg:col-span-2 bg-white rounded-xl shadow p-6">
+
+                <div class="flex justify-between items-center mb-5">
+
+                    <h3 class="text-xl font-bold">
+                        Lista de Usuarios
+                    </h3>
+
+                    <button
+                        onclick="loadUsers()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+
+                        Actualizar
+                    </button>
+
+                </div>
+
+                <div class="overflow-x-auto">
+
+                    <table class="w-full">
+
+                        <thead>
+                            <tr class="bg-slate-100">
+                                <th class="text-left p-3">Nombre</th>
+                                <th class="text-left p-3">Email</th>
+                                <th class="text-center p-3">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="usersTable">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+
+const API_URL = "http://127.0.0.1:5000";
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        showDashboard();
+        loadUsers();
+    }
+});
+
+function getToken() {
+    return localStorage.getItem("token");
+}
+
+function authHeaders() {
+
+    return {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${getToken()}`
+    };
+}
+
+async function login() {
+
+    loginError.classList.add("hidden");
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/auth/v1/auth/login`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: loginEmail.value,
+                    password: loginPassword.value
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message || "Credenciales incorrectas"
+            );
+        }
+
+        localStorage.setItem(
+            "token",
+            data.access_token
+        );
+
+        showDashboard();
+        loadUsers();
+
+    } catch (error) {
+
+        loginError.textContent = error.message;
+        loginError.classList.remove("hidden");
+    }
+}
+
+function logout() {
+
+    localStorage.removeItem("token");
+
+    dashboard.classList.add("hidden");
+    loginSection.classList.remove("hidden");
+}
+
+function showDashboard() {
+
+    loginSection.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+}
+
+async function loadUsers() {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/users`,
+            {
+                headers: authHeaders()
+            }
+        );
+
+        const users = await response.json();
+
+        renderUsers(users);
+
+    } catch (error) {
+
+        alert(error.message);
+    }
+}
+
+function renderUsers(users) {
+
+    usersTable.innerHTML = "";
+
+    users.forEach(user => {
+
+        usersTable.innerHTML += `
+        <tr class="border-b hover:bg-slate-50">
+
+            <td class="p-3">
+                ${user.name}
+            </td>
+
+            <td class="p-3">
+                ${user.email}
+            </td>
+
+            <td class="p-3 text-center space-x-2">
+
+                <button
+                    onclick='editUser(${JSON.stringify(user)})'
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
+
+                    Editar
+                </button>
+
+                <button
+                    onclick="deleteUser('${user.id}')"
+                    class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
+
+                    Eliminar
+                </button>
+
+            </td>
+
+        </tr>
+        `;
+    });
+}
+
+function editUser(user) {
+
+    userId.value = user.id;
+    userName.value = user.name;
+    userEmail.value = user.email;
+
+    formTitle.innerText = "Editar Usuario";
+    saveBtn.innerText = "Actualizar Usuario";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+async function saveUser() {
+
+    const id = userId.value;
+
+    const payload = {
+        name: userName.value,
+        email: userEmail.value,
+        password: userPassword.value
+    };
+
+    try {
+
+        let response;
+
+        if (id) {
+
+            response = await fetch(
+                `${API_URL}/users/${id}`,
+                {
+                    method: "PATCH",
+                    headers: authHeaders(),
+                    body: JSON.stringify(payload)
+                }
+            );
+
+        } else {
+
+            response = await fetch(
+                `${API_URL}/users`,
+                {
+                    method: "POST",
+                    headers: authHeaders(),
+                    body: JSON.stringify(payload)
+                }
+            );
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message || "Error al guardar"
+            );
+        }
+
+        resetForm();
+        loadUsers();
+
+    } catch (error) {
+
+        alert(error.message);
+    }
+}
+
+async function deleteUser(id) {
+
+    const ok = confirm(
+        "¿Desea eliminar este usuario?"
+    );
+
+    if (!ok) return;
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/users/${id}`,
+            {
+                method: "DELETE",
+                headers: authHeaders()
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("No se pudo eliminar");
+        }
+
+        loadUsers();
+
+    } catch (error) {
+
+        alert(error.message);
+    }
+}
+
+function resetForm() {
+
+    userId.value = "";
+    userName.value = "";
+    userEmail.value = "";
+    userPassword.value = "";
+
+    formTitle.innerText = "Crear Usuario";
+    saveBtn.innerText = "Guardar Usuario";
+}
+
+</script>
+
+</body>
+</html>

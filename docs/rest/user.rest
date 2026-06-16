@@ -3,7 +3,7 @@
 
 ### Obtener todos los usuarios
 GET {{baseUrl}}/users
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYzBlZjM3Mi1lZTViLTQwZWEtOTlkYy1iODYwN2UyZGM4YjYiLCJlbWFpbCI6Im9zY2FyQG1haWwuY29tIiwiaWF0IjoxNzgxNTc2MzI3LCJleHAiOjE3ODE1ODM1Mjd9.YmkzHUbtVt7Td7oFI56yA9m_pqkNz7T51HbEpa-rWT4
 ###
 
 ### Obtener usuario por ID

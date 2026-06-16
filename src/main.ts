@@ -13,6 +13,7 @@ async function bootstrap() {
     .setDescription('Api rest')
     .setVersion('1.0')
     .addTag('backend')
+    .addBearerAuth()
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);
@@ -24,6 +25,9 @@ async function bootstrap() {
      forbidNonWhitelisted: true
   }));
 
+  // CORS
+  app.enableCors()
+  
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

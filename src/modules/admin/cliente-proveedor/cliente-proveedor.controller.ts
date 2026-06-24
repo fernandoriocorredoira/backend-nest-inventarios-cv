@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ClienteProveedorService } from './cliente-proveedor.service';
 import { CreateClienteProveedorDto } from './dto/create-cliente-proveedor.dto';
 import { UpdateClienteProveedorDto } from './dto/update-cliente-proveedor.dto';
@@ -13,8 +13,8 @@ export class ClienteProveedorController {
   }
 
   @Get()
-  findAll() {
-    return this.clienteProveedorService.findAll();
+  findAll(@Query('buscar') buscar?: string) {
+    return this.clienteProveedorService.findAll(buscar);
   }
 
   @Get(':id')

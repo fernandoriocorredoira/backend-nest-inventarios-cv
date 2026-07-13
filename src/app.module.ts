@@ -8,6 +8,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { InventarioModule } from './modules/admin/inventario/inventario.module';
 import { ClienteProveedorModule } from './modules/admin/cliente-proveedor/cliente-proveedor.module';
 import { NotaModule } from './modules/admin/nota/nota.module';
+import { RolesModule } from './modules/admin/roles/roles.module';
+import { PermissionsModule } from './modules/admin/permissions/permissions.module';
 
 @Module({
   imports: [
@@ -28,7 +30,9 @@ import { NotaModule } from './modules/admin/nota/nota.module';
     AuthModule,
     InventarioModule,
     ClienteProveedorModule,
-    NotaModule
+    NotaModule,
+    RolesModule,
+    PermissionsModule
   ],
   controllers: [AppController],
   providers: [AppService],

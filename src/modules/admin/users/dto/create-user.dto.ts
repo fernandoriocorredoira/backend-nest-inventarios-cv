@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsString, MaxLength, MinLength } from "class-validator"
+import { IsArray, IsEmail, IsOptional, IsString, MaxLength, MinLength } from "class-validator"
 
 export class CreateUserDto {
 
@@ -15,6 +15,10 @@ export class CreateUserDto {
 
     @ApiProperty()
     @IsString({message: "La contraseña debe ser una cadena de texto"})
-    password!: string
+    password!: string;
+
+    @IsOptional()
+    @IsArray({message: 'Los Ids de roles deben ser un arregle [].'})
+    roleIds?: number[];
 
 }

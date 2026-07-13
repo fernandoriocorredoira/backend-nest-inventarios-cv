@@ -1,0 +1,84 @@
+@baseUrl = http://127.0.0.1:5000
+
+### Obtener todos los permisos
+GET {{baseUrl}}/permissions
+
+###
+
+### Obtener permiso por ID
+GET {{baseUrl}}/permissions/1
+
+###
+
+### Crear permiso - Crear usuarios
+POST {{baseUrl}}/permissions
+Content-Type: application/json
+
+{
+    "label": "Crear usuarios",
+    "action": "create",
+    "subject": "users"
+}
+
+###
+
+### Crear permiso - Leer usuarios
+POST {{baseUrl}}/permissions
+Content-Type: application/json
+
+{
+    "label": "Leer usuarios",
+    "action": "read",
+    "subject": "users"
+}
+
+###
+
+### Crear permiso - Actualizar usuarios
+POST {{baseUrl}}/permissions
+Content-Type: application/json
+
+{
+    "label": "Actualizar usuarios",
+    "action": "update",
+    "subject": "users"
+}
+
+###
+
+### Crear permiso - Eliminar usuarios
+POST {{baseUrl}}/permissions
+Content-Type: application/json
+
+{
+    "label": "Eliminar usuarios",
+    "action": "delete",
+    "subject": "users"
+}
+
+###
+
+### Crear permiso - Gestionar roles
+POST {{baseUrl}}/permissions
+Content-Type: application/json
+
+{
+    "label": "Gestionar roles",
+    "action": "manage",
+    "subject": "roles"
+}
+
+###
+
+### Actualizar permiso
+PATCH {{baseUrl}}/permissions/1
+Content-Type: application/json
+
+{
+    "label": "Crear nuevos usuarios"
+}
+
+###
+
+### Eliminar permiso
+DELETE {{baseUrl}}/permissions/1

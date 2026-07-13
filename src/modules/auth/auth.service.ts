@@ -32,4 +32,9 @@ export class AuthService {
         };
 
     }
+
+    async funGetPerfil(email){
+        const {password, ...resto}= await this.userService.findOneByEmail(email);
+        return resto;
+    }
 }

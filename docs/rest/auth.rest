@@ -1,10 +1,13 @@
 ### Login
 
-POST http://127.0.0.1:5000/auth/v1/auth/login
+POST http://127.0.0.1:5000/v1/auth/login
 Content-Type: application/json
 
 {
     "email": "oscar@mail.com",
     "password": "oscar54321"
 }
-### logout
+### perfil
+
+GET http://127.0.0.1:5000/v1/auth/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYzBlZjM3Mi1lZTViLTQwZWEtOTlkYy1iODYwN2UyZGM4YjYiLCJlbWFpbCI6Im9zY2FyQG1haWwuY29tIiwiaWF0IjoxNzgzOTAzNjk3LCJleHAiOjE3ODM5MTA4OTd9.iUuFAj_uU1-S2OgT5CvQLxbT-QdEm_KESURFMm7SlpA

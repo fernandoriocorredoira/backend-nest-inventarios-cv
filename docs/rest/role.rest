@@ -1,0 +1,74 @@
+@baseUrl = http://127.0.0.1:5000
+
+### Obtener todos los roles
+GET {{baseUrl}}/roles
+
+###
+
+### Obtener rol por ID
+GET {{baseUrl}}/roles/1
+
+###
+
+### Crear Administrador
+POST {{baseUrl}}/roles
+Content-Type: application/json
+
+{
+    "name": "Administrador",
+    "descripcion": "Acceso total al sistema",
+    "permissions": [2,3,4,5, 6]
+}
+
+###
+
+### Crear Supervisor
+POST {{baseUrl}}/roles
+Content-Type: application/json
+
+{
+    "name": "Supervisor",
+    "descripcion": "Puede consultar y actualizar",
+    "permissions": [2,3]
+}
+
+###
+
+### Crear Operador
+POST {{baseUrl}}/roles
+Content-Type: application/json
+
+{
+    "name": "Operador",
+    "descripcion": "Solo consulta",
+    "permissions": [2]
+}
+
+###
+
+### Crear Invitado
+POST {{baseUrl}}/roles
+Content-Type: application/json
+
+{
+    "name": "Invitado",
+    "descripcion": "Acceso limitado",
+    "permissions": []
+}
+
+###
+
+### Actualizar rol
+PATCH {{baseUrl}}/roles/2
+Content-Type: application/json
+
+{
+    "name": "Supervisor General",
+    "descripcion": "Puede consultar y actualizar toda la información",
+    "permissions": [2,3,5]
+}
+
+###
+
+### Eliminar rol
+DELETE {{baseUrl}}/roles/4

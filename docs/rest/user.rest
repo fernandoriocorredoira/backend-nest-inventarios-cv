@@ -39,3 +39,114 @@ Content-Type: application/json
 
 ### Eliminar usuario
 DELETE {{baseUrl}}/users/1
+
+
+#################################################
+@baseUrl = http://127.0.0.1:5000
+
+### Obtener todos los usuarios
+GET {{baseUrl}}/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYzBlZjM3Mi1lZTViLTQwZWEtOTlkYy1iODYwN2UyZGM4YjYiLCJlbWFpbCI6Im9zY2FyQG1haWwuY29tIiwiaWF0IjoxNzgzOTEwNjEzLCJleHAiOjE3ODM5MTc4MTN9.CjCAbT1pHvVdCQ5Q6WWkIKSyf83qUOWKMnzYmjX1OrI
+
+
+###
+
+### Obtener usuario por ID
+GET {{baseUrl}}/users/72944466-1742-40de-bab8-246fb0250f85
+
+###
+
+### Crear Administrador
+POST {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYzBlZjM3Mi1lZTViLTQwZWEtOTlkYy1iODYwN2UyZGM4YjYiLCJlbWFpbCI6Im9zY2FyQG1haWwuY29tIiwiaWF0IjoxNzgzOTEwNjEzLCJleHAiOjE3ODM5MTc4MTN9.CjCAbT1pHvVdCQ5Q6WWkIKSyf83qUOWKMnzYmjX1OrI
+
+{
+    "name": "Oscar Admin Pérez",
+    "email": "administrador@mail.com",
+    "password": "administrador54321",
+    "roleIds": [1]
+}
+
+###
+
+### Crear Supervisor
+POST {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYzBlZjM3Mi1lZTViLTQwZWEtOTlkYy1iODYwN2UyZGM4YjYiLCJlbWFpbCI6Im9zY2FyQG1haWwuY29tIiwiaWF0IjoxNzgzOTEwNjEzLCJleHAiOjE3ODM5MTc4MTN9.CjCAbT1pHvVdCQ5Q6WWkIKSyf83qUOWKMnzYmjX1OrI
+
+{
+    "name": "María Gómez",
+    "email": "maria2@mail.com",
+    "password": "Maria123*",
+    "roleIds": [2]
+}
+
+###
+
+### Crear Operador
+POST {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYzBlZjM3Mi1lZTViLTQwZWEtOTlkYy1iODYwN2UyZGM4YjYiLCJlbWFpbCI6Im9zY2FyQG1haWwuY29tIiwiaWF0IjoxNzgzOTEwNjEzLCJleHAiOjE3ODM5MTc4MTN9.CjCAbT1pHvVdCQ5Q6WWkIKSyf83qUOWKMnzYmjX1OrI
+
+{
+    "name": "Juan Rodríguez",
+    "email": "juan2@mail.com",
+    "password": "Juan123*",
+    "roleIds": [3]
+}
+
+###
+
+### Crear usuario con varios roles
+POST {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYzBlZjM3Mi1lZTViLTQwZWEtOTlkYy1iODYwN2UyZGM4YjYiLCJlbWFpbCI6Im9zY2FyQG1haWwuY29tIiwiaWF0IjoxNzgzOTEwNjEzLCJleHAiOjE3ODM5MTc4MTN9.CjCAbT1pHvVdCQ5Q6WWkIKSyf83qUOWKMnzYmjX1OrI
+
+{
+    "name": "Carlos Mendoza",
+    "email": "carlos@mail.com",
+    "password": "Carlos123*",
+    "roleIds": [2,3]
+}
+
+###
+
+### Usuario sin roles
+POST {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYzBlZjM3Mi1lZTViLTQwZWEtOTlkYy1iODYwN2UyZGM4YjYiLCJlbWFpbCI6Im9zY2FyQG1haWwuY29tIiwiaWF0IjoxNzgzOTEwNjEzLCJleHAiOjE3ODM5MTc4MTN9.CjCAbT1pHvVdCQ5Q6WWkIKSyf83qUOWKMnzYmjX1OrI
+
+{
+    "name": "Invitado",
+    "email": "guest@mail.com",
+    "password": "Guest123*",
+    "roleIds": []
+}
+
+###
+
+### Actualizar usuario
+PATCH {{baseUrl}}/users/72944466-1742-40de-bab8-246fb0250f85
+Content-Type: application/json
+
+{
+    "name": "Oscar Pérez",
+    "email": "oscar@mail.com",
+    "roleIds": [1,2]
+}
+
+###
+
+### Cambiar únicamente los roles
+PATCH {{baseUrl}}/users/72944466-1742-40de-bab8-246fb0250f85
+Content-Type: application/json
+
+{
+    "roleIds": [3]
+}
+
+###
+
+### Eliminar usuario
+DELETE {{baseUrl}}/users/72944466-1742-40de-bab8-246fb0250f85
